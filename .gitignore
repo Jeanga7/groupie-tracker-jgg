@@ -1,0 +1,30 @@
+# Dossiers
+/bin/
+/vendor/
+
+# Fichiers exécutables
+*.exe
+*.out
+
+# Fichiers de build
+*.o
+*.a
+*.so
+
+# Fichiers de logs
+*.log
+
+# Fichiers de configuration
+*.env
+
+# Fichiers système
+.DS_Store
+
+# Fichiers de sauvegarde
+*.bak
+*.swp
+
+# Dossiers et fichiers spécifiques à Go Modules
+/go.sum
+go.mod
+/Gopkg.lock
