@@ -2,7 +2,8 @@ package models
 
 import (
 	"encoding/json"
-	"fmt"
+	"html/template"
+	"io"
 	"net/http"
 )
 
@@ -38,13 +39,30 @@ type Relation struct {
 	DatesLocations map[string][]string `json:"datesLocations"`
 }
 
-type Artists []Artist
-
 func AllArtists(w http.ResponseWriter, r *http.Request) {
-	artist := Artists{
-		Artist{Name: "gaby", FirstAlbum: "hello"},
+	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		panic(err)
+	}
+	var artists []Artist
+	err = json.Unmarshal(body, &artists)
+
+	if err != nil {
+		panic(err)
 	}
 
-	fmt.Println("endpointhit: all artists")
-	json.NewEncoder(w).Encode(artist)
+	tmpl, err := template.ParseFiles("../web/templates/index.html")
+	if err != nil {
+		return
+	}
+	err = tmpl.Execute(w, artists)
+	if err != nil {
+		panic(err)
+	}
 }
