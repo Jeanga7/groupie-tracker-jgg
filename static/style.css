@@ -1,0 +1,19 @@
+body{
+    background-color: rgb(152, 158, 150);
+}
+
+.container{
+    display: grid;
+    grid-template-columns: repeat(auto-fill , minmax(250px, 1fr))
+  
+}
+.imageArtist{
+    border-radius: 5%;
+}
+.nameArtist{
+    color: yellow;
+    display: grid;
+    place-self: center;
+    text-align: center;
+    line-height: 5px;
+}

@@ -1,12 +1,5 @@
 package models
 
-import (
-	"encoding/json"
-	"html/template"
-	"io"
-	"net/http"
-)
-
 type Artist struct {
 	ID           int      `json:"id"`
 	Image        string   `json:"image"`
@@ -37,32 +30,4 @@ type Index struct {
 type Relation struct {
 	ID             int                 `json:"id"`
 	DatesLocations map[string][]string `json:"datesLocations"`
-}
-
-func AllArtists(w http.ResponseWriter, r *http.Request) {
-	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
-	if err != nil {
-		panic(err)
-	}
-	defer resp.Body.Close()
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		panic(err)
-	}
-	var artists []Artist
-	err = json.Unmarshal(body, &artists)
-
-	if err != nil {
-		panic(err)
-	}
-
-	tmpl, err := template.ParseFiles("../web/templates/index.html")
-	if err != nil {
-		return
-	}
-	err = tmpl.Execute(w, artists)
-	if err != nil {
-		panic(err)
-	}
 }
