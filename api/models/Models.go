@@ -1,5 +1,6 @@
 package models
 
+
 type Artist struct {
 	ID           int      `json:"id"`
 	Image        string   `json:"image"`
@@ -23,11 +24,20 @@ type Locations struct {
 	Dates     string   `json:"dates"`
 }
 
-type Index struct {
-	Relations []Relation `json:"index"`
-}
-
 type Relation struct {
-	ID             int                 `json:"id"`
-	DatesLocations map[string][]string `json:"datesLocations"`
+	Index []struct {
+		ID             int `json:"id"`
+		DatesLocations map[string][]string
+	} `json:"index"`
+}
+type Cache struct {
+	ArtistsURI   string `json:"artists"`
+	LocationsURI string `json:"locations"`
+	DatesURI     string `json:"dates"`
+	RelationURI  string `json:"relation"`
+
+	Artists   []Artist
+	Locations Locations
+	Dates     Dates
+	Relation  Relation
 }
