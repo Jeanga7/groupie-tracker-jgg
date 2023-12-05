@@ -12,6 +12,8 @@ const port = ":8080"
 func main() {
 	router := http.NewServeMux()
 	router.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+
+	router.HandleFunc("/", handlers.Index)
 	router.HandleFunc("/artists", handlers.GetArtists)
 
 	fmt.Println("http://localhost:8080")
