@@ -2,31 +2,31 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"groupie-tracker/api/models"
 	"io"
 	"log"
 	"net/http"
-	"os"
 	"sync"
 )
 
 var url = "https://groupietrackers.herokuapp.com/api"
 var cache models.Cache
 
-func Fetch(url string, pointer interface{}) {
+func Fetch(url string, pointer interface{}) error {
 	res, err := http.Get(url)
 	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
+		return err
 	}
-
+	defer res.Body.Close()
 	responseData, err := io.ReadAll(res.Body)
 	if err != nil {
 		log.Fatal(err)
 	}
-	json.Unmarshal(responseData, &pointer)
-
+	err = json.Unmarshal(responseData, &pointer)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func Parse() {
@@ -35,10 +35,10 @@ func Parse() {
 	Fetch(url, &cache)
 	wg.Add(1)
 	go func() {
-		go Fetch(cache.ArtistsURI, &cache.Artists)
-		go Fetch(cache.LocationsURI, &cache.Locations)
-		go Fetch(cache.DatesURI, &cache.Dates)
-		go Fetch(cache.RelationURI, &cache.Relation)
+		go Fetch(cache.ArtistsURL, &cache.Artists)
+		// go Fetch(cache.LocationsURL, &cache.Locations)
+		// go Fetch(cache.DatesURL, &cache.Dates)
+		// go Fetch(cache.RelationURL, &cache.Relation)
 		wg.Done()
 	}()
 	wg.Wait()

@@ -30,14 +30,39 @@ type Relation struct {
 		DatesLocations map[string][]string
 	} `json:"index"`
 }
+
+//__________________________________________________________________________________________
+//                                                                   all data api
 type Cache struct {
-	ArtistsURI   string `json:"artists"`
-	LocationsURI string `json:"locations"`
-	DatesURI     string `json:"dates"`
-	RelationURI  string `json:"relation"`
+	ArtistsURL   string `json:"artists"`
+	LocationsURL string `json:"locations"`
+	DatesURL     string `json:"dates"`
+	RelationURL  string `json:"relation"`
 
 	Artists   []Artist
 	Locations Locations
 	Dates     Dates
 	Relation  Relation
+}
+
+type Data struct {
+	ArtistsID     int
+	Image         string
+	Name          string
+	Members       []string
+	CreationDate  int
+	FirstAlbum    string
+	LocationsLink string
+	ConcertDates  string
+	Relations     string
+	Locations      []string
+	LocationsDates string
+	RelationStruct map[string][]string
+	Dates []string
+
+	ErrorCode int
+	Error     string
+
+	//FoundBy []string
+	//JSONLen int
 }
